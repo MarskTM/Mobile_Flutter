@@ -1,9 +1,9 @@
 import 'pages/mainPage.dart';
 import 'firebase_options.dart';
-import 'pages/welcomePage.dart';
 import 'pages/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'pages/welcomePage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

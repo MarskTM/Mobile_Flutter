@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:btl_cuoi_ki_nhom2/components/introduce.dart';
+import 'package:btl_cuoi_ki_nhom2/pages/pets/beedsSearch.dart';
 import 'package:btl_cuoi_ki_nhom2/pages/auth/loginScreen.dart';
 
 class mainPage extends StatefulWidget {
@@ -39,18 +40,6 @@ class _mainPageState extends State<mainPage> {
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
-  void fetchData() async {
-    final response = await http.get(Uri.parse(''));
-
-    if (response.statusCode == 200) {
-      // Xử lý dữ liệu thành công
-      print(response.body);
-    } else {
-      // Xử lý lỗi
-      print('Request failed with status: ${response.statusCode}');
-    }
-  }
-
   void clearToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('refeshToken');
@@ -82,59 +71,62 @@ class _mainPageState extends State<mainPage> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              CarouselSlider(
-                items: imageList
-                    .map(
-                      (e) => Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                e['path'],
-                                fit: BoxFit.cover,
-                                width: double.infinity,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                CarouselSlider(
+                  items: imageList
+                      .map(
+                        (e) => Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  e['path'],
+                                  fit: BoxFit.cover,
+                                  width: 500,
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 30,
-                            right: 95,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Colors.blueAccent.withOpacity(0.3)),
-                              onPressed: () {},
-                              child: Text('Shop Now'),
+                            Positioned(
+                              bottom: 30,
+                              right: 95,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.blueAccent.withOpacity(0.3)),
+                                onPressed: () {},
+                                child: Text('Shop Now'),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                    .toList(),
-                carouselController: carouselController,
-                options: CarouselOptions(autoPlay: true),
-              ),
-              Positioned(
-                right: 150,
-                bottom: 30,
-                child: CarouselIndicator(
-                  color: Colors.white.withOpacity(0.5),
-                  cornerRadius: 50,
-                  activeColor: Colors.red,
-                  count: imageList.length,
-                  index: currentIndex,
+                          ],
+                        ),
+                      )
+                      .toList(),
+                  carouselController: carouselController,
+                  options: CarouselOptions(autoPlay: true),
                 ),
-              ),
-            ],
-          )
-        ],
+                Positioned(
+                  right: 150,
+                  bottom: 30,
+                  child: CarouselIndicator(
+                    color: Colors.white.withOpacity(0.5),
+                    cornerRadius: 50,
+                    activeColor: Colors.red,
+                    count: imageList.length,
+                    index: currentIndex,
+                  ),
+                ),
+              ],
+            ),
+            Introduce(),
+          ],
+        ),
       ),
       drawer: Drawer(
         child: ListView(
@@ -161,6 +153,12 @@ class _mainPageState extends State<mainPage> {
                 title: Text("My Pets"),
                 onTap: () {
                   print('My Pets');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => beedsSearch(),
+                    ),
+                  );
                 }),
             ListTile(
                 leading: Icon(Icons.shopping_cart_sharp),
@@ -199,39 +197,63 @@ class _mainPageState extends State<mainPage> {
         ),
         // Sign out button
       ),
-      bottomNavigationBar: Container(
-        height: 55,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(
-              Icons.home_filled,
-              color: Colors.black,
-              size: 30,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        fixedColor: Color.fromARGB(255, 59, 58, 58),
+        backgroundColor: Color.fromARGB(255, 228, 190, 255),
+        items: const [
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(
+              Icons.home_rounded,
+              color: Color.fromARGB(255, 159, 143, 183),
+              size: 25,
             ),
-            Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 30,
+          ),
+
+          BottomNavigationBarItem(
+            label: 'Breeds',
+            icon: Icon(
+              Icons.pets,
+              size: 25,
+              color: Color.fromARGB(255, 159, 143, 183),
             ),
-            Icon(
-              Icons.add_circle_outline,
-              size: 55,
-              color: Colors.red,
-            ),
-            Icon(
+          ),
+
+          BottomNavigationBarItem(
+            label: 'Chat',
+            icon: Icon(
               Icons.chat,
-              color: Colors.black,
-              size: 30,
+              color: Color.fromARGB(255, 159, 143, 183),
+              size: 20,
             ),
-            Icon(
+          ),
+
+          BottomNavigationBarItem(
+            label: 'Profile',
+            icon: Icon(
               Icons.supervised_user_circle_sharp,
-              color: Colors.black,
-              size: 30,
+              color: Color.fromARGB(255, 159, 143, 183),
+              size: 20,
             ),
-          ],
-        ),
+          ),
+        ],
+        onTap: (value) => {
+          if (value == 1)
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => beedsSearch(),
+                ),
+              )
+            }
+          else if (value == 2) {
+            print('Chat'),
+          } else if (value == 3) {
+            print('Profile'),
+          }
+        }
       ),
     );
   }

@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 class Dog {
   int id;
   String breed;
-  Array imageUrl;
+  String imageUrl;
   String favoriteFood;
   String favoriteToy;
   String price;
@@ -12,4 +10,3 @@ class Dog {
   Dog(this.id, this.breed, this.imageUrl, this.favoriteFood, this.favoriteToy,
       this.price, this.description);
 }
-
