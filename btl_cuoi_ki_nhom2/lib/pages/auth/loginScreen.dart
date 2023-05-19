@@ -1,11 +1,12 @@
-import '../mainPage.dart';
 import './signUpScreen.dart';
 import '../../models/payload.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:btl_cuoi_ki_nhom2/pages/mainPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({Key? key}) : super(key: key);
@@ -16,8 +17,40 @@ class loginScreen extends StatefulWidget {
 
 class _loginScreenState extends State<loginScreen> {
   TextEditingController _textEditingController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  
+  void checkAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    final refreshToken = prefs.getString('refeshToken');
+    if (refreshToken != null) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => mainPage()));
+    }
+  }
+
+  LoginPayload payload = LoginPayload('', '');
+  void login(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // User is successfully signed in
+      User? user = userCredential.user;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('refeshToken', user!.refreshToken.toString());
+      print('User $user');
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => mainPage()));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login failed: Email or password is incorrect !'),
+        ),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -25,11 +58,10 @@ class _loginScreenState extends State<loginScreen> {
     super.dispose();
   }
 
-  bool isEmailCorrect = true;
-  final _formKey = GlobalKey<FormState>();
-
+  final _passKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    checkAuth();
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -76,7 +108,7 @@ class _loginScreenState extends State<loginScreen> {
                     height: 30,
                   ),
                   Container(
-                    height: 180,
+                    height: 200,
                     width: MediaQuery.of(context).size.width / 1.1,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.3),
@@ -90,7 +122,7 @@ class _loginScreenState extends State<loginScreen> {
                             controller: _textEditingController,
                             onChanged: (val) {
                               setState(() {
-                                isEmailCorrect = isEmail(val);
+                                payload.email = val;
                               });
                             },
                             decoration: const InputDecoration(
@@ -112,12 +144,23 @@ class _loginScreenState extends State<loginScreen> {
                               hintText: 'your-email@domain.com',
                               labelStyle: TextStyle(color: Colors.purple),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter an email address';
+                              }
+                              if (!RegExp(
+                                      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Form(
-                            key: _formKey,
+                            key: _passKey,
                             child: TextFormField(
                               obscuringCharacter: '*',
                               obscureText: true,
@@ -143,10 +186,13 @@ class _loginScreenState extends State<loginScreen> {
                               validator: (value) {
                                 if (value!.isEmpty && value!.length < 5) {
                                   return 'Enter a valid password';
-                                  {
-                                    return null;
-                                  }
                                 }
+                                return null;
+                              },
+                              onChanged: (val) {
+                                setState(() {
+                                  payload.password = val;
+                                });
                               },
                             ),
                           ),
@@ -170,20 +216,19 @@ class _loginScreenState extends State<loginScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal:
                                   MediaQuery.of(context).size.width / 3.3,
-                              vertical: 20)
-                          // padding: EdgeInsets.only(
-                          //     left: 120, right: 120, top: 20, bottom: 20),
-                          ),
+                              vertical: 20)),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => mainPage()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (BuildContext context) => mainPage()));
+                        login(payload.email, payload.password); 
                       },
                       child: Text(
                         'Sign in!',
                         style: TextStyle(fontSize: 17),
-                      )), //
+                      )),
+                  //
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

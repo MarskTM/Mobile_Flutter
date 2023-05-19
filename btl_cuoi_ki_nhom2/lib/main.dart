@@ -1,9 +1,15 @@
 import 'pages/mainPage.dart';
+import 'firebase_options.dart';
 import 'pages/welcomePage.dart';
 import 'pages/welcomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ecommerce());
 }
 

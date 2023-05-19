@@ -3,6 +3,9 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:btl_cuoi_ki_nhom2/pages/mainPage.dart';
+import 'package:btl_cuoi_ki_nhom2/models/payload.dart';
 
 class signUpScreen extends StatefulWidget {
   const signUpScreen({Key? key}) : super(key: key);
@@ -13,6 +16,57 @@ class signUpScreen extends StatefulWidget {
 
 class _signUpScreenState extends State<signUpScreen> {
   TextEditingController _textEditingController = TextEditingController();
+  RegisterPayload registerPayload = RegisterPayload('', '', '');
+
+  void singUp() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: registerPayload.email, password: registerPayload.password);
+      print(userCredential);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Sign-up Success',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              content: Text(
+                'Email-already-in-use !',
+                style: TextStyle(color: Colors.purple),
+              ),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => mainPage()));
+                    },
+                    child: Text('Goto HomePage',
+                        style: TextStyle(color: Colors.blue))),
+              ],
+            );
+          });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('The password provided is too weak.'),
+          ),
+        );
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('The account already exists for that email.'),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void dispose() {
@@ -20,7 +74,7 @@ class _signUpScreenState extends State<signUpScreen> {
     super.dispose();
   }
 
-  bool isEmailCorrect = true;
+  bool isEmailCorrect = false;
   bool isPasswordCorrect = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -77,7 +131,8 @@ class _signUpScreenState extends State<signUpScreen> {
                             // Check validate email
                             onChanged: (val) => {
                               setState(() {
-                                isEmailCorrect = isEmail(val);
+                                isEmailCorrect = !val.isEmpty;
+                                registerPayload.email = val;
                               })
                             },
                             decoration: const InputDecoration(
@@ -128,14 +183,11 @@ class _signUpScreenState extends State<signUpScreen> {
                                 hintText: '********',
                                 labelStyle: TextStyle(color: Colors.purple),
                               ),
-                              // Check validate password
-                              validator: (value) {
-                                if (value!.isEmpty && value!.length < 6) {
-                                  return 'Password must be at least 6 characters';
-                                  {
-                                    return null;
-                                  }
-                                }
+                              onChanged: (value) {
+                                setState(() {
+                                  isPasswordCorrect = value.length >= 6;
+                                  registerPayload.password = value;
+                                });
                               },
                             ),
                           ),
@@ -163,18 +215,14 @@ class _signUpScreenState extends State<signUpScreen> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: "Password",
+                                labelText: "Valid Password",
                                 hintText: '********',
                                 labelStyle: TextStyle(color: Colors.purple),
                               ),
-                              // Check validate password
-                              validator: (value) {
-                                if (value!.isEmpty && value!.length < 6) {
-                                  return 'Password must be at least 6 characters';
-                                  {
-                                    return null;
-                                  }
-                                }
+                              onChanged: (value) {
+                                setState(() {
+                                  registerPayload.resPassword = value;
+                                });
                               },
                             ),
                           ),
@@ -196,12 +244,33 @@ class _signUpScreenState extends State<signUpScreen> {
                                   MediaQuery.of(context).size.width / 3.3,
                               vertical: 20)),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const loginScreen(),
-                          ),
-                        );
+                        if (!isEmailCorrect) {
+                          print("email: " + registerPayload.email);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Email Invalid!'),
+                            ),
+                          );
+                        } else if (!isPasswordCorrect) {
+                          print("password: " + registerPayload.password);
+                          print("re-password: " + registerPayload.resPassword);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Password Invalid!'),
+                            ),
+                          );
+                        } else if (registerPayload.password !=
+                            registerPayload.resPassword) {
+                          print("password: " + registerPayload.password);
+                          print("re-password: " + registerPayload.resPassword);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Password Not Match!'),
+                            ),
+                          );
+                        } else {
+                          singUp();
+                        }
                       },
                       child: Text(
                         'Sign up!',
