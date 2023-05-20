@@ -2,6 +2,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:btl_cuoi_ki_nhom2/models/dog.dart';
+import 'package:btl_cuoi_ki_nhom2/pages/pets/breedInfor.dart';
 
 class Introduce extends StatefulWidget {
   const Introduce({Key? key}) : super(key: key);
