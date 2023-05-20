@@ -3,9 +3,9 @@
 - Maintain:    manhtokim@gmail.com **
 
 ## [Thành viên]
-**Tô Kim Manh         - 20010784**
-**Cân Thị Diệu Linh   - 20010781**
-**Phạm Đức Hòa        - 20010769**
+- **Tô Kim Manh         - 20010784**
+- **Cân Thị Diệu Linh   - 20010781**
+- **Phạm Đức Hòa        - 20010769**
 
 - Bài tập nhóm 10 - bài giữa kì 
 - Bài tập nhóm 2  - bài cuối kì
