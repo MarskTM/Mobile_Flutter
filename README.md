@@ -1,9 +1,17 @@
 # Mobile_Flutter
+Repository: Xây dựng ứng dụng trên hệ điều hành Androi bằng ngôn ngữ Flutter.
+Mantain:    manhtokim@gmail.com 
 
-Đây là repository của nhóm 10 - bài giữa kì
-                      nhóm 2  - bài cuối kì
+## [Thành viên]
+Tô Kim Manh         - 20010784
+Cân Thị Diệu Linh   - 20010781
+Phạm Đức Hòa        - 20010769
 
-Tất cả các bài tập sẽ được nộp dưới dạng file .dart
+** Bài tập nhóm 10 - bài giữa kì **
+** Bài tập nhóm 2  - bài cuối kì **
 
-    - Chạy lệnh " flutter pub get " để tải các dependency cần thiểt.
-    - Chạy lênh " flutter run " để chạy dự án.
+## Tất cả các bài tập sẽ được nộp dưới dạng file .dart:
+###     Chạy lệnh " flutter clean " để xóa bỏ các dữ liệu cache.
+###     Chạy lệnh " flutter update " để cập nhập version cần thiết.
+###     Chạy lệnh " flutter pub get " để tải các dependency cần thiểt.
+###     Chạy lênh " flutter run " để chạy dự án.

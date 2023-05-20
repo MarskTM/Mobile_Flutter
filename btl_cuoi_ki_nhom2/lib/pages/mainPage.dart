@@ -156,7 +156,9 @@ class _mainPageState extends State<mainPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => beedsSearch(),
+                      builder: (context) => beedsSearch(
+                        searchDefault: '',
+                      ),
                     ),
                   );
                 }),
@@ -198,63 +200,64 @@ class _mainPageState extends State<mainPage> {
         // Sign out button
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        fixedColor: Color.fromARGB(255, 59, 58, 58),
-        backgroundColor: Color.fromARGB(255, 228, 190, 255),
-        items: const [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(
-              Icons.home_rounded,
-              color: Color.fromARGB(255, 159, 143, 183),
-              size: 25,
+          currentIndex: 0,
+          fixedColor: Color.fromARGB(255, 59, 58, 58),
+          backgroundColor: Color.fromARGB(255, 228, 190, 255),
+          items: const [
+            BottomNavigationBarItem(
+              label: 'Home',
+              icon: Icon(
+                Icons.home_rounded,
+                color: Color.fromARGB(255, 159, 143, 183),
+                size: 25,
+              ),
             ),
-          ),
-
-          BottomNavigationBarItem(
-            label: 'Breeds',
-            icon: Icon(
-              Icons.pets,
-              size: 25,
-              color: Color.fromARGB(255, 159, 143, 183),
+            BottomNavigationBarItem(
+              label: 'Breeds',
+              icon: Icon(
+                Icons.pets,
+                size: 25,
+                color: Color.fromARGB(255, 159, 143, 183),
+              ),
             ),
-          ),
-
-          BottomNavigationBarItem(
-            label: 'Chat',
-            icon: Icon(
-              Icons.chat,
-              color: Color.fromARGB(255, 159, 143, 183),
-              size: 20,
+            BottomNavigationBarItem(
+              label: 'Chat',
+              icon: Icon(
+                Icons.chat,
+                color: Color.fromARGB(255, 159, 143, 183),
+                size: 20,
+              ),
             ),
-          ),
-
-          BottomNavigationBarItem(
-            label: 'Profile',
-            icon: Icon(
-              Icons.supervised_user_circle_sharp,
-              color: Color.fromARGB(255, 159, 143, 183),
-              size: 20,
+            BottomNavigationBarItem(
+              label: 'Profile',
+              icon: Icon(
+                Icons.supervised_user_circle_sharp,
+                color: Color.fromARGB(255, 159, 143, 183),
+                size: 20,
+              ),
             ),
-          ),
-        ],
-        onTap: (value) => {
-          if (value == 1)
-            {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => beedsSearch(),
-                ),
-              )
-            }
-          else if (value == 2) {
-            print('Chat'),
-          } else if (value == 3) {
-            print('Profile'),
-          }
-        }
-      ),
+          ],
+          onTap: (value) => {
+                if (value == 1)
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => beedsSearch(
+                          searchDefault: '',
+                        ),
+                      ),
+                    )
+                  }
+                else if (value == 2)
+                  {
+                    print('Chat'),
+                  }
+                else if (value == 3)
+                  {
+                    print('Profile'),
+                  }
+              }),
     );
   }
 }

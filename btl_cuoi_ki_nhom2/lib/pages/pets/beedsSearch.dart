@@ -4,7 +4,8 @@ import 'package:btl_cuoi_ki_nhom2/pages/mainPage.dart';
 import 'package:btl_cuoi_ki_nhom2/components/infoRespone.dart';
 
 class beedsSearch extends StatefulWidget {
-  const beedsSearch({Key? key}) : super(key: key);
+  String searchDefault;
+  beedsSearch({Key? key, required this.searchDefault}) : super(key: key);
 
   @override
   State<beedsSearch> createState() => _beedsSearchState();
@@ -92,7 +93,7 @@ class _beedsSearchState extends State<beedsSearch> {
           ),
 
           // Danh sách tìm kiếm giống chó phù hợp
-          Result(search: search,),
+          Result(search: search, searchDefault: widget.searchDefault),
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(

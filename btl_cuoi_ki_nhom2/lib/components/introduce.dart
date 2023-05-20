@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:btl_cuoi_ki_nhom2/models/dog.dart';
 import 'package:btl_cuoi_ki_nhom2/pages/pets/breedInfor.dart';
+import 'package:btl_cuoi_ki_nhom2/pages/pets/beedsSearch.dart';
 
 class Introduce extends StatefulWidget {
   const Introduce({Key? key}) : super(key: key);
@@ -97,7 +98,14 @@ class _IntroduceState extends State<Introduce> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                              onPressed: () {}, child: Text('Xem thêm'))
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => beedsSearch(
+                                              searchDefault: 'husky',
+                                            )));
+                              }, child: Text('Xem thêm'))
                         ],
                       )
                     ],
@@ -147,7 +155,14 @@ class _IntroduceState extends State<Introduce> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                              onPressed: () {}, child: Text('Xem thêm'))
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => beedsSearch(
+                                              searchDefault: 'malamute',
+                                            )));
+                              }, child: Text('Xem thêm'))
                         ],
                       )
                     ],
@@ -248,7 +263,14 @@ class _IntroduceState extends State<Introduce> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                              onPressed: () {}, child: Text('Xem thêm'))
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => beedsSearch(
+                                              searchDefault: 'shetland',
+                                            )));
+                              }, child: Text('Xem thêm'))
                         ],
                       )
                     ],
