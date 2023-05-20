@@ -1,5 +1,5 @@
 # Mobile_Flutter
-- Repository: Xây dựng ứng dụng trên hệ điều hành Androi bằng ngôn ngữ Flutter.
+- Repository: Xây dựng ứng dụng trên hệ điều hành Android bằng ngôn ngữ Flutter.
 - Maintain:    manhtokim@gmail.com **
 
 ## [Thành viên]
