@@ -8,9 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:btl_cuoi_ki_nhom2/pages/pets/breedInfor.dart';
 
 class Result extends StatefulWidget {
-  String search, searchDefault;
-  Result({Key? key, required this.search, required this.searchDefault})
-      : super(key: key);
+  String search;
+  Result({Key? key, required this.search}) : super(key: key);
 
   @override
   State<Result> createState() => _ResultState();
@@ -69,8 +68,7 @@ class _ResultState extends State<Result> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: listPetInfo.map((dog) {
-              if (dog.breed.contains(widget.searchDefault) ||
-                  dog.breed.contains(widget.search)) {
+              if (dog.breed.contains(widget.search)) {
                 return Container(
                   margin:
                       EdgeInsets.only(top: 40, left: 2, right: 2, bottom: 10),

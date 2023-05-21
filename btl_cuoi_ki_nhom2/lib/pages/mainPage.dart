@@ -156,9 +156,7 @@ class _mainPageState extends State<mainPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => beedsSearch(
-                        searchDefault: '',
-                      ),
+                      builder: (context) => beedsSearch(),
                     ),
                   );
                 }),
@@ -243,9 +241,7 @@ class _mainPageState extends State<mainPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => beedsSearch(
-                          searchDefault: '',
-                        ),
+                        builder: (context) => beedsSearch(),
                       ),
                     )
                   }

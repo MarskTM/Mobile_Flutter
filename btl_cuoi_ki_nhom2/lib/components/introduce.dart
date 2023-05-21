@@ -103,7 +103,7 @@ class _IntroduceState extends State<Introduce> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => beedsSearch(
-                                              searchDefault: 'husky',
+                                              
                                             )));
                               }, child: Text('Xem thêm'))
                         ],
@@ -160,7 +160,7 @@ class _IntroduceState extends State<Introduce> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => beedsSearch(
-                                              searchDefault: 'malamute',
+                                              
                                             )));
                               }, child: Text('Xem thêm'))
                         ],
@@ -268,7 +268,7 @@ class _IntroduceState extends State<Introduce> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => beedsSearch(
-                                              searchDefault: 'shetland',
+                                              
                                             )));
                               }, child: Text('Xem thêm'))
                         ],

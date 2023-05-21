@@ -261,7 +261,7 @@ class _breedInforState extends State<breedInfor> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => beedsSearch(searchDefault: '',),
+                        builder: (context) => beedsSearch(),
                       ),
                     )
                   }
